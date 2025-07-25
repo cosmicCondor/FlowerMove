@@ -1,0 +1,7 @@
+body { font-family: sans-serif; margin: 2rem; }
+section { margin-bottom: 2rem; }
+input, select, button { margin: 0.25rem; padding: 0.4rem; }
+table { border-collapse: collapse; margin-top: 1rem; }
+td, th { border: 1px solid #aaa; padding: 0.4rem 0.8rem; text-align: center; }
+.filters { margin: 1rem 0; }
+
