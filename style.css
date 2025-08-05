@@ -1,0 +1,270 @@
+/* Colores FlowerMove aclarados */
+:root {
+  --azul: #607edb;
+  --amarillo: #fff176;
+  --blanco: #f9f9f9;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--azul);
+  color: var(--blanco);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.centered {
+  max-width: 400px;
+  background: var(--azul);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.25);
+}
+
+h1 {
+  margin-top: 0;
+  color: var(--amarillo);
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input[type="text"], 
+input[type="password"],
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+button {
+  margin-top: 20px;
+  background: var(--amarillo);
+  color: var(--azul);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 1em;
+}
+
+button:hover {
+  background: #f9e547;
+}
+
+.error {
+  color: #ff8a80;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+#app {
+  max-width: 900px;
+  width: 100%;
+  background: var(--azul);
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.35);
+  padding: 20px;
+  color: var(--blanco);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+header button {
+  background: var(--blanco);
+  color: var(--azul);
+  font-weight: normal;
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+nav label {
+  color: var(--amarillo);
+  margin: 0;
+  font-weight: bold;
+}
+
+#month-select {
+  padding: 6px;
+  font-size: 1em;
+  border-radius: 5px;
+  border: none;
+  max-width: 150px;
+}
+
+#turnos-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.turno-btn {
+  background: var(--azul);
+  border: 2px solid var(--amarillo);
+  color: var(--amarillo);
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+}
+
+.turno-btn.active, 
+.turno-btn:hover {
+  background: var(--amarillo);
+  color: var(--azul);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background: var(--azul);
+}
+
+th, td {
+  border: 1px solid var(--amarillo);
+  padding: 10px;
+  text-align: center;
+  color: var(--blanco);
+}
+
+th {
+  background: var(--amarillo);
+  color: var(--azul);
+}
+
+.asistencia-cell {
+  font-size: 1.5em;
+  user-select: none;
+  cursor: pointer;
+}
+
+.barra-importe {
+  height: 24px;
+  background: var(--amarillo);
+  color: var(--azul);
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+  line-height: 24px;
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  position: relative;
+  overflow: hidden;
+}
+
+.barra-importe::after {
+  content: attr(data-text);
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  left: 0;
+  line-height: 24px;
+  color: var(--azul);
+  pointer-events: none;
+}
+
+#add-alumno-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: var(--azul);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#add-alumno-form input[type=text],
+#add-alumno-form input[type=number] {
+  flex: 1 1 150px;
+}
+
+#add-alumno-form label {
+  color: var(--amarillo);
+  font-weight: normal;
+}
+
+.btn-eliminar {
+  background: #ff6f6f;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-eliminar:hover {
+  background: #e34848;
+}
+
+.btn-modificar {
+  background: #ffd54f;
+  color: var(--azul);
+  border-radius: 5px;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+  transition: background 0.3s;
+}
+
+.btn-modificar:hover {
+  background: #ffec7a;
+}
+
+input.editable {
+  width: 90%;
+  font-size: 1em;
+  padding: 4px;
+  border-radius: 5px;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+@media(max-width:650px){
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  #add-alumno-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
