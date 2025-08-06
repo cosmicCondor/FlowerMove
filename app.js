@@ -1,119 +1,325 @@
+// app.js
+
 // Datos usuarios login
 const USERNAME = "admin";
 const PASSWORD = "flower123";
 
-// Meses permitidos (septiembre a junio)
+// Meses permitidos (agosto 2025 a junio 2026)
 const MESES = [
-  "Septiembre", "Octubre", "Noviembre", "Diciembre",
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"
+  "Agosto 2025",
+  "Septiembre 2025", "Octubre 2025", "Noviembre 2025", "Diciembre 2025",
+  "Enero 2026", "Febrero 2026", "Marzo 2026", "Abril 2026", "Mayo 2026", "Junio 2026"
 ];
 
-// Turnos con alumnos inventados
-const ALUMNOS_INICIALES = {
+// Turnos con datos base por defecto (se clonarán para cada mes)
+const BASE_ALUMNOS = {
   infantil: [
-    {name:"Lucía", asistencia:false, importe:70},
-    {name:"Mateo", asistencia:true, importe:60},
-    {name:"Sofía", asistencia:true, importe:65},
-    {name:"Lucas", asistencia:false, importe:50},
-    {name:"Emma", asistencia:true, importe:70},
-    {name:"Hugo", asistencia:false, importe:40},
-    {name:"Valeria", asistencia:true, importe:55},
-    {name:"Liam", asistencia:true, importe:60},
-    {name:"Martina", asistencia:false, importe:68},
-    {name:"Diego", asistencia:true, importe:72},
+    { name: "Lucía", importe: 70 },
+    { name: "Mateo", importe: 60 },
+    { name: "Sofía", importe: 65 },
+    { name: "Lucas", importe: 50 },
+    { name: "Emma", importe: 70 },
+    { name: "Hugo", importe: 40 },
+    { name: "Valeria", importe: 55 },
+    { name: "Liam", importe: 60 },
+    { name: "Martina", importe: 68 },
+    { name: "Diego", importe: 72 }
   ],
   junior: [
-    {name:"Noah", asistencia:true, importe:80},
-    {name:"Mía", asistencia:false, importe:70},
-    {name:"Ethan", asistencia:true, importe:75},
-    {name:"Isabella", asistencia:true, importe:82},
-    {name:"Oliver", asistencia:false, importe:60},
-    {name:"Camila", asistencia:true, importe:58},
-    {name:"Elías", asistencia:true, importe:70},
-    {name:"Aria", asistencia:false, importe:72},
-    {name:"Sebastián", asistencia:true, importe:78},
-    {name:"Zoe", asistencia:true, importe:80},
+    { name: "Noah", importe: 80 },
+    { name: "Mía", importe: 70 },
+    { name: "Ethan", importe: 75 },
+    { name: "Isabella", importe: 82 },
+    { name: "Oliver", importe: 60 },
+    { name: "Camila", importe: 58 },
+    { name: "Elías", importe: 70 },
+    { name: "Aria", importe: 72 },
+    { name: "Sebastián", importe: 78 },
+    { name: "Zoe", importe: 80 }
   ],
   inicio: [
-    {name:"David", asistencia:true, importe:90},
-    {name:"Clara", asistencia:false, importe:85},
-    {name:"Adrián", asistencia:true, importe:95},
-    {name:"Sara", asistencia:true, importe:98},
-    {name:"Mario", asistencia:false, importe:88},
-    {name:"Nora", asistencia:true, importe:87},
-    {name:"Pablo", asistencia:true, importe:92},
-    {name:"Lara", asistencia:false, importe:89},
-    {name:"Álvaro", asistencia:true, importe:90},
-    {name:"Julia", asistencia:true, importe:93},
+    { name: "David", importe: 90 },
+    { name: "Clara", importe: 85 },
+    { name: "Adrián", importe: 95 },
+    { name: "Sara", importe: 98 },
+    { name: "Mario", importe: 88 },
+    { name: "Nora", importe: 87 },
+    { name: "Pablo", importe: 92 },
+    { name: "Lara", importe: 89 },
+    { name: "Álvaro", importe: 90 },
+    { name: "Julia", importe: 93 }
   ],
   youth: [
-    {name:"Carlos", asistencia:true, importe:110},
-    {name:"Elena", asistencia:false, importe:100},
-    {name:"Bruno", asistencia:true, importe:108},
-    {name:"Marta", asistencia:true, importe:115},
-    {name:"Rubén", asistencia:false, importe:105},
-    {name:"Alicia", asistencia:true, importe:112},
-    {name:"Javier", asistencia:true, importe:113},
-    {name:"Carmen", asistencia:false, importe:109},
-    {name:"Sergio", asistencia:true, importe:111},
-    {name:"Irene", asistencia:true, importe:114},
+    { name: "Carlos", importe: 110 },
+    { name: "Elena", importe: 100 },
+    { name: "Bruno", importe: 108 },
+    { name: "Marta", importe: 115 },
+    { name: "Rubén", importe: 105 },
+    { name: "Alicia", importe: 112 },
+    { name: "Javier", importe: 113 },
+    { name: "Carmen", importe: 109 },
+    { name: "Sergio", importe: 111 },
+    { name: "Irene", importe: 114 }
   ],
   adulto: [
-    {name:"Laura", asistencia:true, importe:130},
-    {name:"Miguel", asistencia:false, importe:115},
-    {name:"Ana", asistencia:true, importe:120},
-    {name:"Fernando", asistencia:true, importe:125},
-    {name:"Cristina", asistencia:false, importe:118},
-    {name:"Luis", asistencia:true, importe:119},
-    {name:"Patricia", asistencia:true, importe:122},
-    {name:"David", asistencia:false, importe:126},
-    {name:"Sandra", asistencia:true, importe:128},
-    {name:"Jorge", asistencia:true, importe:121},
-  ],
+    { name: "Laura", importe: 130 },
+    { name: "Miguel", importe: 115 },
+    { name: "Ana", importe: 120 },
+    { name: "Fernando", importe: 125 },
+    { name: "Cristina", importe: 118 },
+    { name: "Luis", importe: 119 },
+    { name: "Patricia", importe: 122 },
+    { name: "David", importe: 126 },
+    { name: "Sandra", importe: 128 },
+    { name: "Jorge", importe: 121 }
+  ]
 };
 
-// Estado app: login, mes actual, turno, datos alumnos etc
+// Estado de la app
 let estado = {
   loggedIn: false,
   turnoActivo: "infantil",
-  mesActivo: "Septiembre",
-  alumnosPorTurno: {},
+  mesActivo: MESES[0],
+  fechaActiva: null,
+  alumnosPorMes: {} // estructura: { mes: { turno: [ {name, importe, registros:{fechaISO: true/false}} ] } }
 };
 
-// Guardar y cargar datos desde localStorage para persistencia
-function guardarDatos(){
-  localStorage.setItem("flowermoveDatos", JSON.stringify(estado.alumnosPorTurno));
+// Persistencia en localStorage
+function guardarDatos() {
+  localStorage.setItem("flowermoveDatos", JSON.stringify(estado.alumnosPorMes));
 }
-function cargarDatos(){
+
+function cargarDatos() {
   const data = localStorage.getItem("flowermoveDatos");
-  if(data){
-    estado.alumnosPorTurno = JSON.parse(data);
+  if (data) {
+    estado.alumnosPorMes = JSON.parse(data);
+
+    // Asegurar que cada mes del array MESES esté inicializado
+    MESES.forEach(mes => {
+      if (!estado.alumnosPorMes.hasOwnProperty(mes)) {
+        estado.alumnosPorMes[mes] = {};
+        Object.keys(BASE_ALUMNOS).forEach(turno => {
+          estado.alumnosPorMes[mes][turno] = BASE_ALUMNOS[turno].map(a => ({
+            name: a.name,
+            importe: a.importe,
+            registros: {}
+          }));
+        });
+      }
+    });
+
   } else {
-    estado.alumnosPorTurno = JSON.parse(JSON.stringify(ALUMNOS_INICIALES));
+    // Inicializar clonando BASE_ALUMNOS y añadiendo registros vacíos
+    MESES.forEach(mes => {
+      estado.alumnosPorMes[mes] = {};
+      Object.keys(BASE_ALUMNOS).forEach(turno => {
+        estado.alumnosPorMes[mes][turno] = BASE_ALUMNOS[turno].map(a => ({
+          name: a.name,
+          importe: a.importe,
+          registros: {}
+        }));
+      });
+    });
   }
 }
 
-function mostrarLoginError(msg){
-  const err = document.getElementById("login-error");
-  err.textContent = msg;
+// Obtener array de fechas de lunes y miércoles de un mes
+function obtenerFechasLunMie(mesAnio) {
+  const [nombreMes, anioStr] = mesAnio.split(" ");
+  const mesesMap = {
+    Enero:0, Febrero:1, Marzo:2, Abril:3, Mayo:4, Junio:5,
+    Julio:6, Agosto:7, Septiembre:8, Octubre:9, Noviembre:10, Diciembre:11
+  };
+  const mesNum = mesesMap[nombreMes], anio = parseInt(anioStr,10);
+  const fechas = [];
+  const d = new Date(anio, mesNum, 1);
+  while (d.getMonth() === mesNum) {
+    if (d.getDay() === 1 || d.getDay() === 3) fechas.push(new Date(d));
+    d.setDate(d.getDate() + 1);
+  }
+  return fechas;
 }
 
-function init(){
-  cargarDatos();
-  // Poblar select meses
-  const monthSelect = document.getElementById("month-select");
-  MESES.forEach(mes => {
-    const option = document.createElement("option");
-    option.value=mes;
-    option.textContent=mes;
-    monthSelect.appendChild(option);
-  });
-  monthSelect.value = estado.mesActivo;
+// Mostrar u ocultar elemento
+function toggle(el, show) {
+  el.classList.toggle("hidden", !show);
+}
 
-  // Turnos botones
-  const turnoBtns = document.querySelectorAll(".turno-btn");
-  turnoBtns.forEach(btn=>{
-    btn.addEventListener("click", ()=>{
+// Render select de fechas
+function renderSelectFechas() {
+  const fechas = obtenerFechasLunMie(estado.mesActivo);
+  const sel = document.getElementById("date-select");
+  sel.innerHTML = "";
+  const opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = "-- Seleccionar fecha --";
+  sel.appendChild(opt0);
+  fechas.forEach(f => {
+    const iso = f.toISOString().slice(0,10);
+    const txt = f.toLocaleDateString("es-ES",{day:"2-digit",month:"2-digit",year:"numeric"});
+    const o = document.createElement("option");
+    o.value = iso;
+    o.textContent = txt;
+    sel.appendChild(o);
+  });
+  // Establecer fechaActiva por defecto: buscar fecha más cercana al día actual que ya haya pasado o la primera fecha
+  const hoy = new Date();
+  let fechaSeleccionada = null;
+  for (const f of fechas) {
+    if (f.toISOString().slice(0,10) <= hoy.toISOString().slice(0,10)){
+      fechaSeleccionada = f.toISOString().slice(0,10);
+    }
+  }
+  if (!fechaSeleccionada && fechas.length > 0) {
+    fechaSeleccionada = fechas[0].toISOString().slice(0,10);
+  }
+  estado.fechaActiva = fechaSeleccionada;
+  if (estado.fechaActiva) sel.value = estado.fechaActiva; else sel.value = "";
+
+  sel.onchange = e => {
+    estado.fechaActiva = e.target.value || null;
+    renderTablaAlumnos();
+  };
+}
+
+// Render tabla alumnos para la fecha seleccionada
+function renderTablaAlumnos() {
+  const tbody = document.querySelector("#alumnos-table tbody");
+  tbody.innerHTML = "";
+  if (!estado.fechaActiva) return;
+
+  // Validar que la data para mesActivo y turnoActivo exista
+  const datosMes = estado.alumnosPorMes[estado.mesActivo];
+  if (!datosMes) return;
+  const alumnos = datosMes[estado.turnoActivo];
+  if (!alumnos) return;
+
+  const hoyISO = new Date().toISOString().slice(0,10);
+  const pasada = estado.fechaActiva <= hoyISO;
+
+  alumnos.forEach((alumno, idx) => {
+    const tr = document.createElement("tr");
+
+    // Fecha
+    const tdFecha = document.createElement("td");
+    const opcionFecha = document.getElementById("date-select").selectedOptions[0];
+    tdFecha.textContent = opcionFecha ? opcionFecha.textContent : "";
+    tr.appendChild(tdFecha);
+
+    // Nombre
+    const tdName = document.createElement("td");
+    tdName.textContent = alumno.name;
+    tr.appendChild(tdName);
+
+    // Asistencia
+    const tdAsis = document.createElement("td");
+    tdAsis.classList.add("asistencia-cell");
+    if (!pasada) {
+      // Fecha futura: mostrar vacío y no permitir click
+      tdAsis.textContent = "";
+      tdAsis.style.cursor = "default";
+      tdAsis.title = "Fecha futura, no disponible";
+    } else {
+      const reg = alumno.registros[estado.fechaActiva];
+      tdAsis.textContent = reg === true ? "✔️" : reg === false ? "❌" : "";
+      tdAsis.style.cursor = "pointer";
+      tdAsis.title = "Click para cambiar asistencia";
+      tdAsis.onclick = () => {
+        alumno.registros[estado.fechaActiva] = !(alumno.registros[estado.fechaActiva] === true);
+        guardarDatos();
+        renderTablaAlumnos();
+      };
+    }
+    tr.appendChild(tdAsis);
+
+    // Importe
+    const tdImp = document.createElement("td");
+    const barra = document.createElement("div");
+    barra.className = "barra-importe";
+    const maxImp = 150;
+    barra.style.width = Math.min(alumno.importe / maxImp * 100, 100) + "%";
+    barra.setAttribute("data-text", alumno.importe.toFixed(2) + " €");
+    tdImp.appendChild(barra);
+    tr.appendChild(tdImp);
+
+    // Acciones (botones Modificar y Eliminar)
+    const tdAcc = document.createElement("td");
+
+    // Botón modificar
+    const btnMod = document.createElement("button");
+    btnMod.textContent = "Modificar";
+    btnMod.classList.add("btn-modificar");
+    btnMod.onclick = () => {
+      const nuevoNombre = prompt("Nuevo nombre:", alumno.name);
+      if (nuevoNombre === null) return; // cancelar
+      const nuevoImporteStr = prompt("Nuevo importe (€):", alumno.importe.toString());
+      if (nuevoImporteStr === null) return; // cancelar
+      const nuevoImporte = parseFloat(nuevoImporteStr);
+      if (nuevoNombre.trim() !== "" && !isNaN(nuevoImporte) && nuevoImporte >= 0) {
+        alumno.name = nuevoNombre.trim();
+        alumno.importe = nuevoImporte;
+        guardarDatos();
+        renderTablaAlumnos();
+      } else {
+        alert("Nombre o importe inválidos.");
+      }
+    };
+    tdAcc.appendChild(btnMod);
+
+    // Botón eliminar
+    const btnDel = document.createElement("button");
+    btnDel.textContent = "Eliminar";
+    btnDel.classList.add("btn-eliminar");
+    btnDel.onclick = () => {
+      if (confirm(`¿Eliminar alumno ${alumno.name}?`)) {
+        estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo].splice(idx, 1);
+        guardarDatos();
+        renderTablaAlumnos();
+      }
+    };
+    tdAcc.appendChild(btnDel);
+
+    tr.appendChild(tdAcc);
+
+    tbody.appendChild(tr);
+  });
+}
+
+// Mostrar login o app
+function mostrarLogin() {
+  toggle(document.getElementById("login-container"), true);
+  toggle(document.getElementById("app"), false);
+}
+
+function mostrarApp() {
+  toggle(document.getElementById("login-container"), false);
+  toggle(document.getElementById("app"), true);
+  renderSelectFechas();
+  renderTablaAlumnos();
+}
+
+// Init
+window.addEventListener("load", () => {
+  cargarDatos();
+
+  // Meses
+  const selMes = document.getElementById("month-select");
+  MESES.forEach(m => {
+    const o = document.createElement("option");
+    o.value = m;
+    o.textContent = m;
+    selMes.appendChild(o);
+  });
+  selMes.value = estado.mesActivo;
+  selMes.addEventListener("change", e => {
+    estado.mesActivo = e.target.value;
+    renderSelectFechas();
+    renderTablaAlumnos();
+  });
+
+  // Turnos
+  document.querySelectorAll(".turno-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
       document.querySelector(".turno-btn.active").classList.remove("active");
       btn.classList.add("active");
       estado.turnoActivo = btn.dataset.turno;
@@ -121,22 +327,29 @@ function init(){
     });
   });
 
-  // Cambiar mes
-  monthSelect.addEventListener("change", (e)=>{
-    estado.mesActivo = e.target.value;
-    renderTablaAlumnos();
-  });
+  // Insertar select de fechas después del select de meses (solo si no existe)
+  const nav = document.querySelector("nav");
+  if (!document.getElementById("date-select")) {
+    const lbl = document.createElement("label");
+    lbl.htmlFor = "date-select";
+    lbl.textContent = "Fecha:";
+    const selDate = document.createElement("select");
+    selDate.id = "date-select";
+    nav.appendChild(lbl);
+    nav.appendChild(selDate);
+  }
 
   // Añadir alumno
   const addForm = document.getElementById("add-alumno-form");
-  addForm.addEventListener("submit", (e)=>{
+  addForm.addEventListener("submit", e => {
     e.preventDefault();
     const name = document.getElementById("nuevo-alumno-name").value.trim();
     const importe = parseFloat(document.getElementById("nuevo-alumno-importe").value);
-    const asistencia = document.getElementById("nuevo-alumno-asistencia").checked;
-    if(name && !isNaN(importe) && importe >= 0){
-      estado.alumnosPorTurno[estado.turnoActivo].push({
-        name, importe, asistencia
+    if (name && !isNaN(importe) && importe >= 0) {
+      estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo].push({
+        name,
+        importe,
+        registros: {}
       });
       guardarDatos();
       addForm.reset();
@@ -144,156 +357,24 @@ function init(){
     }
   });
 
+  // Login form
+  document.getElementById("login-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value.trim();
+    if (u === USERNAME && p === PASSWORD) {
+      estado.loggedIn = true;
+      mostrarApp();
+    } else {
+      document.getElementById("login-error").textContent = "Usuario o contraseña incorrectos";
+    }
+  });
+
   // Logout botón
-  document.getElementById("logout-btn").addEventListener("click", ()=>{
+  document.getElementById("logout-btn").addEventListener("click", () => {
     estado.loggedIn = false;
     mostrarLogin();
   });
 
-  // Login form
-  document.getElementById("login-form").addEventListener("submit", (e)=>{
-    e.preventDefault();
-    const user = document.getElementById("username").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    if(user === USERNAME && pass === PASSWORD){
-      estado.loggedIn = true;
-      mostrarApp();
-    } else {
-      mostrarLoginError("Usuario o contraseña incorrectos");
-    }
-  });
-
   mostrarLogin();
-}
-
-// Mostrar login o app
-function mostrarLogin(){
-  document.getElementById("login-container").classList.remove("hidden");
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("login-error").textContent = "";
-}
-function mostrarApp(){
-  document.getElementById("login-container").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  renderTablaAlumnos();
-}
-
-// Render tabla alumnos
-function renderTablaAlumnos(){
-  const tbody = document.querySelector("#alumnos-table tbody");
-  tbody.innerHTML = "";
-  const alumnos = estado.alumnosPorTurno[estado.turnoActivo];
-  if(!alumnos) return;
-
-  alumnos.forEach((alumno, index)=>{
-    const tr = document.createElement("tr");
-
-    // Nombre (o input en modo edición)
-    const tdName = document.createElement("td");
-
-    // Asistencia (click para cambiar)
-    const tdAsistencia = document.createElement("td");
-    tdAsistencia.classList.add("asistencia-cell");
-    tdAsistencia.textContent = alumno.asistencia ? "✔️" : "❌";
-    tdAsistencia.title = "Click para cambiar asistencia";
-    tdAsistencia.style.cursor = "pointer";
-    tdAsistencia.addEventListener("click", ()=>{
-      alumno.asistencia = !alumno.asistencia;
-      guardarDatos();
-      renderTablaAlumnos();
-    });
-
-    // Importe con barra o input editable
-    const tdImporte = document.createElement("td");
-
-    // Acciones
-    const tdActions = document.createElement("td");
-
-    // Estado para edición
-    let enEdicion = false;
-
-    // Botón modificar / guardar
-    const btnModificar = document.createElement("button");
-    btnModificar.textContent = "Modificar";
-    btnModificar.className = "btn-modificar";
-    btnModificar.addEventListener("click", ()=>{
-      if(!enEdicion){
-        // Modo edición: cambiar campos a inputs
-        enEdicion = true;        
-        // Nombre input editable
-        const inputName = document.createElement("input");
-        inputName.type = "text";
-        inputName.className = "editable";
-        inputName.value = alumno.name;
-        tdName.innerHTML = "";
-        tdName.appendChild(inputName);
-
-        // Importe input editable
-        const inputImporte = document.createElement("input");
-        inputImporte.type = "number";
-        inputImporte.min = "0";
-        inputImporte.step = "0.01";
-        inputImporte.className = "editable";
-        inputImporte.value = alumno.importe.toFixed(2);
-        tdImporte.innerHTML = "";
-        tdImporte.appendChild(inputImporte);
-
-        btnModificar.textContent = "Guardar";
-      } else {
-        // Guardar cambios
-        const inputName = tdName.querySelector("input");
-        const inputImporte = tdImporte.querySelector("input");
-        const nuevoNombre = inputName.value.trim();
-        const nuevoImporte = parseFloat(inputImporte.value);
-
-        if(nuevoNombre && !isNaN(nuevoImporte) && nuevoImporte >= 0){
-          alumno.name = nuevoNombre;
-          alumno.importe = nuevoImporte;
-          guardarDatos();
-          enEdicion = false;
-          renderTablaAlumnos();
-        } else {
-          alert("Por favor, ingresa un nombre válido y un importe numérico positivo.");
-        }
-      }
-    });
-
-    // Rellenar filas en modo lectura si no está en edición
-    if(!enEdicion){
-      tdName.textContent = alumno.name;
-
-      const maxImporte = 150;
-      const barra = document.createElement("div");
-      barra.className = "barra-importe";
-      barra.style.width = Math.min((alumno.importe/maxImporte)*100,100) + "%";
-      barra.textContent = "";
-      barra.setAttribute("data-text", alumno.importe.toFixed(2) + " €");
-      tdImporte.appendChild(barra);
-    }
-
-    // Botón eliminar
-    const btnDel = document.createElement("button");
-    btnDel.textContent = "Eliminar 🗑️";
-    btnDel.className = "btn-eliminar";
-    btnDel.style.marginLeft = "10px";
-    btnDel.addEventListener("click", ()=>{
-      if(confirm(`¿Eliminar alumno ${alumno.name}?`)){
-        estado.alumnosPorTurno[estado.turnoActivo].splice(index,1);
-        guardarDatos();
-        renderTablaAlumnos();
-      }
-    });
-
-    tdActions.appendChild(btnModificar);
-    tdActions.appendChild(btnDel);
-
-    tr.appendChild(tdName);
-    tr.appendChild(tdAsistencia);
-    tr.appendChild(tdImporte);
-    tr.appendChild(tdActions);
-
-    tbody.appendChild(tr);
-  });
-}
-
-window.addEventListener("load", init);
+});

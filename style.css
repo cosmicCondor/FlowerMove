@@ -1,14 +1,16 @@
+/* style.css */
+
 /* Colores FlowerMove aclarados */
 :root {
-  --azul: #607edb;
-  --amarillo: #fff176;
-  --blanco: #f9f9f9;
+  --azul-fondo: #607EDB;       /* Azul principal de fondo */
+  --amarillo-acento: #FFF176;  /* Amarillo para resaltes y botones */
+  --blanco-texto: #F9F9F9;     /* Blanco suave para texto */
 }
 
 body {
   font-family: Arial, sans-serif;
-  background: var(--azul);
-  color: var(--blanco);
+  background: var(--azul-fondo);
+  color: var(--blanco-texto);
   margin: 0;
   min-height: 100vh;
   display: flex;
@@ -19,26 +21,28 @@ body {
 
 .centered {
   max-width: 400px;
-  background: var(--azul);
+  background: var(--azul-fondo);
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.25);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
 }
 
 h1 {
   margin-top: 0;
-  color: var(--amarillo);
+  color: var(--amarillo-acento);
 }
 
 label {
   display: block;
   margin-top: 15px;
   font-weight: bold;
+  user-select: none;
 }
 
-input[type="text"], 
+input[type="text"],
 input[type="password"],
-input[type="number"] {
+input[type="number"],
+select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
@@ -50,8 +54,8 @@ input[type="number"] {
 
 button {
   margin-top: 20px;
-  background: var(--amarillo);
-  color: var(--azul);
+  background: var(--amarillo-acento);
+  color: var(--azul-fondo);
   border: none;
   padding: 12px 20px;
   border-radius: 5px;
@@ -62,11 +66,11 @@ button {
 }
 
 button:hover {
-  background: #f9e547;
+  background: #F9E547;
 }
 
 .error {
-  color: #ff8a80;
+  color: #FF8A80;
   margin-top: 10px;
 }
 
@@ -77,11 +81,11 @@ button:hover {
 #app {
   max-width: 900px;
   width: 100%;
-  background: var(--azul);
+  background: var(--azul-fondo);
   border-radius: 10px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.35);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
   padding: 20px;
-  color: var(--blanco);
+  color: var(--blanco-texto);
 }
 
 header {
@@ -92,8 +96,8 @@ header {
 }
 
 header button {
-  background: var(--blanco);
-  color: var(--azul);
+  background: var(--blanco-texto);
+  color: var(--azul-fondo);
   font-weight: normal;
   padding: 8px 15px;
   border-radius: 6px;
@@ -110,16 +114,13 @@ nav {
 }
 
 nav label {
-  color: var(--amarillo);
+  color: var(--amarillo-acento);
   margin: 0;
   font-weight: bold;
 }
 
-#month-select {
-  padding: 6px;
-  font-size: 1em;
-  border-radius: 5px;
-  border: none;
+#month-select,
+#date-select {
   max-width: 150px;
 }
 
@@ -129,10 +130,11 @@ nav label {
   flex-wrap: wrap;
 }
 
+/* Turnos botones */
 .turno-btn {
-  background: var(--azul);
-  border: 2px solid var(--amarillo);
-  color: var(--amarillo);
+  background: var(--azul-fondo);
+  border: 2px solid var(--amarillo-acento);
+  color: var(--amarillo-acento);
   padding: 8px 15px;
   border-radius: 8px;
   cursor: pointer;
@@ -140,29 +142,29 @@ nav label {
   transition: background 0.3s, color 0.3s;
 }
 
-.turno-btn.active, 
+.turno-btn.active,
 .turno-btn:hover {
-  background: var(--amarillo);
-  color: var(--azul);
+  background: var(--amarillo-acento);
+  color: var(--azul-fondo);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  background: var(--azul);
 }
 
-th, td {
-  border: 1px solid var(--amarillo);
+th,
+td {
+  border: 1px solid var(--amarillo-acento);
   padding: 10px;
   text-align: center;
-  color: var(--blanco);
+  color: var(--blanco-texto);
 }
 
 th {
-  background: var(--amarillo);
-  color: var(--azul);
+  background: var(--amarillo-acento);
+  color: var(--azul-fondo);
 }
 
 .asistencia-cell {
@@ -173,13 +175,12 @@ th {
 
 .barra-importe {
   height: 24px;
-  background: var(--amarillo);
-  color: var(--azul);
+  background: var(--amarillo-acento);
+  color: var(--azul-fondo);
   text-align: center;
   border-radius: 5px;
   font-weight: bold;
   line-height: 24px;
-  width: 100%; /* Ocupa todo el ancho del contenedor */
   position: relative;
   overflow: hidden;
 }
@@ -192,7 +193,7 @@ th {
   top: 0;
   left: 0;
   line-height: 24px;
-  color: var(--azul);
+  color: var(--azul-fondo);
   pointer-events: none;
 }
 
@@ -201,23 +202,23 @@ th {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  background: var(--azul);
+  background: var(--azul-fondo);
   padding: 10px;
   border-radius: 10px;
 }
 
-#add-alumno-form input[type=text],
-#add-alumno-form input[type=number] {
+#add-alumno-form input[type="text"],
+#add-alumno-form input[type="number"] {
   flex: 1 1 150px;
 }
 
 #add-alumno-form label {
-  color: var(--amarillo);
+  color: var(--amarillo-acento);
   font-weight: normal;
 }
 
 .btn-eliminar {
-  background: #ff6f6f;
+  background: #FF6F6F;
   color: white;
   border-radius: 5px;
   border: none;
@@ -228,12 +229,12 @@ th {
 }
 
 .btn-eliminar:hover {
-  background: #e34848;
+  background: #E34848;
 }
 
 .btn-modificar {
-  background: #ffd54f;
-  color: var(--azul);
+  background: #FFD54F;
+  color: var(--azul-fondo);
   border-radius: 5px;
   border: none;
   padding: 6px 12px;
@@ -244,7 +245,7 @@ th {
 }
 
 .btn-modificar:hover {
-  background: #ffec7a;
+  background: #FFEC7A;
 }
 
 input.editable {
@@ -257,8 +258,7 @@ input.editable {
   font-weight: bold;
 }
 
-
-@media(max-width:650px){
+@media (max-width: 650px) {
   nav {
     flex-direction: column;
     align-items: flex-start;
