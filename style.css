@@ -1,32 +1,63 @@
-/* style.css */
-
-/* Colores FlowerMove aclarados */
 :root {
-  --azul-fondo: #607EDB;       /* Azul principal de fondo */
-  --amarillo-acento: #FFF176;  /* Amarillo para resaltes y botones */
-  --blanco-texto: #F9F9F9;     /* Blanco suave para texto */
+  --azul-fondo: #607EDB;
+  --amarillo-acento: #FFF176;
+  --blanco-texto: #F9F9F9;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background: var(--azul-fondo);
   color: var(--blanco-texto);
   margin: 0;
   min-height: 100vh;
+  
+  /* Es importante position relative para el pseudo-elemento */
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
+  overflow-x: hidden; /* evitar scroll horizontal inesperado */
 }
 
+/* Imagen de fondo con opacidad reducida */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('logo.jpeg'); /* Cambia por tu imagen */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.25; /* Ajusta opacidad según te guste */
+  z-index: -2; /* Detrás de todo */
+  pointer-events: none; /* no molesta al click */
+}
+
+/* Capa de overlay semitransparente para mejor contraste */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.3); /* Negro con 30% transparencia */
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Contenedor centrado */
 .centered {
   max-width: 400px;
   background: var(--azul-fondo);
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  z-index: 1; /* Por si acaso */
 }
 
+/* Tu resto de estilos mantienen color, fondo y aspectos visuales */
 h1 {
   margin-top: 0;
   color: var(--amarillo-acento);
@@ -41,7 +72,6 @@ label {
 
 input[type="text"],
 input[type="password"],
-input[type="number"],
 select {
   width: 100%;
   padding: 8px;
@@ -86,6 +116,8 @@ button:hover {
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
   padding: 20px;
   color: var(--blanco-texto);
+  position: relative;
+  z-index: 1;
 }
 
 header {
@@ -130,7 +162,6 @@ nav label {
   flex-wrap: wrap;
 }
 
-/* Turnos botones */
 .turno-btn {
   background: var(--azul-fondo);
   border: 2px solid var(--amarillo-acento);
@@ -173,66 +204,6 @@ th {
   cursor: pointer;
 }
 
-.barra-importe {
-  height: 24px;
-  background: var(--amarillo-acento);
-  color: var(--azul-fondo);
-  text-align: center;
-  border-radius: 5px;
-  font-weight: bold;
-  line-height: 24px;
-  position: relative;
-  overflow: hidden;
-}
-
-.barra-importe::after {
-  content: attr(data-text);
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 0;
-  left: 0;
-  line-height: 24px;
-  color: var(--azul-fondo);
-  pointer-events: none;
-}
-
-#add-alumno-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  background: var(--azul-fondo);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-#add-alumno-form input[type="text"],
-#add-alumno-form input[type="number"] {
-  flex: 1 1 150px;
-}
-
-#add-alumno-form label {
-  color: var(--amarillo-acento);
-  font-weight: normal;
-}
-
-.btn-eliminar {
-  background: #FF6F6F;
-  color: white;
-  border-radius: 5px;
-  border: none;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-left: 15px;
-  transition: background 0.3s;
-}
-
-.btn-eliminar:hover {
-  background: #E34848;
-}
-
 .btn-modificar {
   background: #FFD54F;
   color: var(--azul-fondo);
@@ -249,14 +220,12 @@ th {
   background: #FFEC7A;
 }
 
-input.editable {
-  width: 90%;
-  font-size: 1em;
-  padding: 4px;
-  border-radius: 5px;
+.pago-toggle {
+  padding: 6px 12px;
   border: none;
-  text-align: center;
+  border-radius: 5px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 @media (max-width: 650px) {
