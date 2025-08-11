@@ -48,7 +48,7 @@
             <th>Fecha</th>
             <th>Alumno</th>
             <th>Asistencia</th>
-            <th>Importe abonado (€)</th>
+            <th>Importe abonado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -59,12 +59,17 @@
 
       <form id="add-alumno-form">
         <input type="text" id="nuevo-alumno-name" placeholder="Nombre nuevo alumno" required />
-        <input type="number" id="nuevo-alumno-importe" placeholder="Importe abonado (€)" min="0" step="0.01" required />
-        <button type="submit">Añadir Alumno</button>
+        <label style="margin-left: 10px;">
+          ¿Importe pagado?
+          <select id="nuevo-alumno-pagado" required>
+            <option value="true">Sí</option>
+            <option value="false" selected>No</option>
+          </select>
+        </label>
+        <button type="submit" style="margin-left: 10px;">Añadir Alumno</button>
       </form>
     </main>
   </div>
-
   <script src="app.js"></script>
 </body>
 </html>
