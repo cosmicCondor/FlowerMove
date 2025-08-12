@@ -9,33 +9,33 @@ body {
   color: var(--blanco-texto);
   margin: 0;
   min-height: 100vh;
-
-  /* Posición relativa para los pseudo-elementos */
+  
+  /* Es importante position relative para el pseudo-elemento */
   position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
-  overflow-x: hidden;
+  overflow-x: hidden; /* evitar scroll horizontal inesperado */
 }
 
-/* Fondo imagen mosaico con opacidad reducida */
+/* Imagen de fondo con opacidad reducida */
 body::before {
   content: "";
   position: fixed;
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('logo.jpeg'); /* Pon aquí la ruta o URL de tu imagen */
-  background-repeat: repeat; /* Mosaico horizontal y vertical */
-  background-size: 10vw auto; /* Cada imagen ocupa 1/10 parte del ancho viewport */
-  background-position: top left;
-  opacity: 0.25; /* Opacidad reducida */
-  z-index: -2;
-  pointer-events: none;
+  background-image: url('logo.jpeg'); /* Cambia por tu imagen */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.25; /* Ajusta opacidad según te guste */
+  z-index: -2; /* Detrás de todo */
+  pointer-events: none; /* no molesta al click */
 }
 
-/* Capa oscura semitransparente para mejor contraste */
+/* Capa de overlay semitransparente para mejor contraste */
 body::after {
   content: "";
   position: fixed;
@@ -47,15 +47,17 @@ body::after {
   pointer-events: none;
 }
 
+/* Contenedor centrado */
 .centered {
   max-width: 400px;
   background: var(--azul-fondo);
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
-  z-index: 1;
+  z-index: 1; /* Por si acaso */
 }
 
+/* Tu resto de estilos mantienen color, fondo y aspectos visuales */
 h1 {
   margin-top: 0;
   color: var(--amarillo-acento);
@@ -133,6 +135,16 @@ header button {
   border-radius: 6px;
   border: none;
   cursor: pointer;
+}
+
+/* NUEVO: Estilo para mostrar el rol del usuario */
+.user-role {
+  background: var(--amarillo-acento);
+  color: var(--azul-fondo);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 nav {
@@ -213,8 +225,26 @@ th {
   margin-left: 5px;
   transition: background 0.3s;
 }
+
 .btn-modificar:hover {
   background: #FFEC7A;
+}
+
+/* NUEVO: Estilo para el botón eliminar (solo admin) */
+.btn-eliminar {
+  background: #E53935;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+  transition: background 0.3s;
+}
+
+.btn-eliminar:hover {
+  background: #FF5252;
 }
 
 .pago-toggle {
