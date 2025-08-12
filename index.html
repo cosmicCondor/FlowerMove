@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- LOGIN -->
   <div id="login-container" class="centered">
     <h1>FlowerMove - Iniciar sesión</h1>
     <form id="login-form">
@@ -19,19 +20,21 @@
     <p id="login-error" class="error"></p>
   </div>
 
+  <!-- APP -->
   <div id="app" class="hidden">
     <header>
       <h1>FlowerMove - Control Asistencias</h1>
-      <button id="logout-btn">Cerrar sesión</button>
+      <div>
+        <span id="user-role" class="user-role"></span>
+        <button id="logout-btn">Cerrar sesión</button>
+      </div>
     </header>
 
     <nav>
       <label for="month-select">Mes:</label>
       <select id="month-select"></select>
-
       <label for="date-select" style="margin-left: 20px;">Fecha:</label>
       <select id="date-select"></select>
-
       <div id="turnos-tabs">
         <button class="turno-btn active" data-turno="infantil">Infantil</button>
         <button class="turno-btn" data-turno="junior">Junior</button>
@@ -42,34 +45,35 @@
     </nav>
 
     <main>
-      <table id="alumnos-table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Alumno</th>
-            <th>Asistencia</th>
-            <th>Importe abonado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Filas generadas dinámicamente -->
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table id="alumnos-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Alumno</th>
+              <th>Asistencia</th>
+              <th>Importe abonado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody><!-- Filas dinámicas --></tbody>
+        </table>
+      </div>
 
       <form id="add-alumno-form">
-        <input type="text" id="nuevo-alumno-name" placeholder="Nombre nuevo alumno" required />
-        <label style="margin-left: 10px;">
+        <input id="nuevo-alumno-name" type="text" placeholder="Nombre nuevo alumno" required />
+        <label style="margin-left:10px;">
           ¿Importe pagado?
           <select id="nuevo-alumno-pagado" required>
             <option value="true">Sí</option>
             <option value="false" selected>No</option>
           </select>
         </label>
-        <button type="submit" style="margin-left: 10px;">Añadir Alumno</button>
+        <button type="submit" style="margin-left:10px;">Añadir Alumno</button>
       </form>
     </main>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
