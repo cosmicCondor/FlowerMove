@@ -1,6 +1,8 @@
-// Datos usuarios login
-const USERNAME = "admin";
-const PASSWORD = "flower123";
+// Datos usuarios login - con roles
+const CREDENCIALES = {
+  admin: { user: "admin", pass: "flower123" },
+  profesor: { user: "profesor", pass: "flower123" }
+};
 
 // Meses permitidos (agosto 2025 a junio 2026)
 const MESES = [
@@ -12,95 +14,63 @@ const MESES = [
 // Base alumnos con estado pagado inicial (false por defecto)
 const BASE_ALUMNOS = {
   infantil: [
-    { name: "Lucía", pagado: false },
-    { name: "Mateo", pagado: false },
-    { name: "Sofía", pagado: false },
-    { name: "Lucas", pagado: false },
-    { name: "Emma", pagado: false },
-    { name: "Hugo", pagado: false },
-    { name: "Valeria", pagado: false },
-    { name: "Liam", pagado: false },
-    { name: "Martina", pagado: false },
+    { name: "Lucía", pagado: false }, { name: "Mateo", pagado: false }, { name: "Sofía", pagado: false },
+    { name: "Lucas", pagado: false }, { name: "Emma", pagado: false }, { name: "Hugo", pagado: false },
+    { name: "Valeria", pagado: false }, { name: "Liam", pagado: false }, { name: "Martina", pagado: false },
     { name: "Diego", pagado: false }
   ],
   junior: [
-    { name: "Noah", pagado: false },
-    { name: "Mía", pagado: false },
-    { name: "Ethan", pagado: false },
-    { name: "Isabella", pagado: false },
-    { name: "Oliver", pagado: false },
-    { name: "Camila", pagado: false },
-    { name: "Elías", pagado: false },
-    { name: "Aria", pagado: false },
-    { name: "Sebastián", pagado: false },
+    { name: "Noah", pagado: false }, { name: "Mía", pagado: false }, { name: "Ethan", pagado: false },
+    { name: "Isabella", pagado: false }, { name: "Oliver", pagado: false }, { name: "Camila", pagado: false },
+    { name: "Elías", pagado: false }, { name: "Aria", pagado: false }, { name: "Sebastián", pagado: false },
     { name: "Zoe", pagado: false }
   ],
   inicio: [
-    { name: "David", pagado: false },
-    { name: "Clara", pagado: false },
-    { name: "Adrián", pagado: false },
-    { name: "Sara", pagado: false },
-    { name: "Mario", pagado: false },
-    { name: "Nora", pagado: false },
-    { name: "Pablo", pagado: false },
-    { name: "Lara", pagado: false },
-    { name: "Álvaro", pagado: false },
+    { name: "David", pagado: false }, { name: "Clara", pagado: false }, { name: "Adrián", pagado: false },
+    { name: "Sara", pagado: false }, { name: "Mario", pagado: false }, { name: "Nora", pagado: false },
+    { name: "Pablo", pagado: false }, { name: "Lara", pagado: false }, { name: "Álvaro", pagado: false },
     { name: "Julia", pagado: false }
   ],
   youth: [
-    { name: "Carlos", pagado: false },
-    { name: "Elena", pagado: false },
-    { name: "Bruno", pagado: false },
-    { name: "Marta", pagado: false },
-    { name: "Rubén", pagado: false },
-    { name: "Alicia", pagado: false },
-    { name: "Javier", pagado: false },
-    { name: "Carmen", pagado: false },
-    { name: "Sergio", pagado: false },
+    { name: "Carlos", pagado: false }, { name: "Elena", pagado: false }, { name: "Bruno", pagado: false },
+    { name: "Marta", pagado: false }, { name: "Rubén", pagado: false }, { name: "Alicia", pagado: false },
+    { name: "Javier", pagado: false }, { name: "Carmen", pagado: false }, { name: "Sergio", pagado: false },
     { name: "Irene", pagado: false }
   ],
   adulto: [
-    { name: "Laura", pagado: false },
-    { name: "Miguel", pagado: false },
-    { name: "Ana", pagado: false },
-    { name: "Fernando", pagado: false },
-    { name: "Cristina", pagado: false },
-    { name: "Luis", pagado: false },
-    { name: "Patricia", pagado: false },
-    { name: "David", pagado: false },
-    { name: "Sandra", pagado: false },
+    { name: "Laura", pagado: false }, { name: "Miguel", pagado: false }, { name: "Ana", pagado: false },
+    { name: "Fernando", pagado: false }, { name: "Cristina", pagado: false }, { name: "Luis", pagado: false },
+    { name: "Patricia", pagado: false }, { name: "David", pagado: false }, { name: "Sandra", pagado: false },
     { name: "Jorge", pagado: false }
   ]
 };
 
-// Estado de la app
+// Estado global
 let estado = {
   loggedIn: false,
+  role: null, // 'admin' o 'profesor'
   turnoActivo: "infantil",
   mesActivo: MESES[0],
   fechaActiva: null,
-  alumnosPorMes: {}  // Estructura: { mes: { turno: [ {name, pagado, registros:{} } ] } }
+  alumnosPorMes: {}
 };
 
-// Guardar en localStorage
+// Guardar datos
 function guardarDatos() {
   localStorage.setItem("flowermoveDatos", JSON.stringify(estado.alumnosPorMes));
 }
 
-// Cargar datos o inicializar
+// Cargar datos
 function cargarDatos() {
   const data = localStorage.getItem("flowermoveDatos");
   if (data) {
     estado.alumnosPorMes = JSON.parse(data);
-    // Asegurar meses y turnos inicializados
     MESES.forEach(mes => {
-      if (!estado.alumnosPorMes.hasOwnProperty(mes)) {
+      if (!estado.alumnosPorMes[mes]) {
         estado.alumnosPorMes[mes] = {};
         Object.keys(BASE_ALUMNOS).forEach(turno => {
           estado.alumnosPorMes[mes][turno] = BASE_ALUMNOS[turno].map(a => ({
-            name: a.name,
-            pagado: a.pagado,
-            registros: {}
+            name: a.name, pagado: a.pagado, registros: {}
           }));
         });
       }
@@ -110,16 +80,14 @@ function cargarDatos() {
       estado.alumnosPorMes[mes] = {};
       Object.keys(BASE_ALUMNOS).forEach(turno => {
         estado.alumnosPorMes[mes][turno] = BASE_ALUMNOS[turno].map(a => ({
-          name: a.name,
-          pagado: a.pagado,
-          registros: {}
+          name: a.name, pagado: a.pagado, registros: {}
         }));
       });
     });
   }
 }
 
-// Obtener fechas lunes y miércoles de un mes
+// Obtener fechas lunes y miercoles
 function obtenerFechasLunMie(mesAnio) {
   const [nombreMes, anioStr] = mesAnio.split(" ");
   const mesesMap = {
@@ -137,12 +105,12 @@ function obtenerFechasLunMie(mesAnio) {
   return fechas;
 }
 
-// Mostrar o ocultar elemento
+// Mostrar u ocultar
 function toggle(el, show) {
   el.classList.toggle("hidden", !show);
 }
 
-// Render selector fechas con fecha activa al más cercano a hoy o anterior
+// Render select fechas
 function renderSelectFechas() {
   const fechas = obtenerFechasLunMie(estado.mesActivo);
   const sel = document.getElementById("date-select");
@@ -159,28 +127,19 @@ function renderSelectFechas() {
 
   const hoyISO = new Date().toISOString().slice(0,10);
   let seleccion = fechas.length > 0 ? fechas[0].toISOString().slice(0,10) : null;
-  fechas.forEach(f => {
-    const iso = f.toISOString().slice(0,10);
-    if (iso <= hoyISO) seleccion = iso;
-  });
+  fechas.forEach(f => { if (f.toISOString().slice(0,10) <= hoyISO) seleccion = f.toISOString().slice(0,10); });
   estado.fechaActiva = seleccion;
   if (seleccion) sel.value = seleccion;
 
-  sel.onchange = e => {
-    estado.fechaActiva = e.target.value || null;
-    renderTablaAlumnos();
-  };
+  sel.onchange = e => { estado.fechaActiva = e.target.value || null; renderTablaAlumnos(); };
 }
 
-// Render tabla alumnos
+// Render tabla
 function renderTablaAlumnos() {
   const tbody = document.querySelector("#alumnos-table tbody");
   tbody.innerHTML = "";
   if (!estado.fechaActiva) return;
-
-  const datosMes = estado.alumnosPorMes[estado.mesActivo];
-  if (!datosMes) return;
-  const alumnos = datosMes[estado.turnoActivo];
+  const alumnos = estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo];
   if (!alumnos) return;
 
   const hoyISO = new Date().toISOString().slice(0,10);
@@ -188,11 +147,9 @@ function renderTablaAlumnos() {
 
   alumnos.forEach((alumno, idx) => {
     const tr = document.createElement("tr");
-
     // Fecha
     const tdFecha = document.createElement("td");
-    const optFecha = document.getElementById("date-select").selectedOptions[0];
-    tdFecha.textContent = optFecha ? optFecha.textContent : "";
+    tdFecha.textContent = document.getElementById("date-select").selectedOptions[0]?.textContent || "";
     tr.appendChild(tdFecha);
 
     // Nombre
@@ -205,13 +162,12 @@ function renderTablaAlumnos() {
     tdAsis.classList.add("asistencia-cell");
     if (!pasada) {
       tdAsis.textContent = "";
-      tdAsis.style.cursor = "default";
       tdAsis.title = "Fecha futura, no disponible";
     } else {
       const reg = alumno.registros[estado.fechaActiva];
       tdAsis.textContent = reg === true ? "✔️" : reg === false ? "❌" : "";
-      tdAsis.style.cursor = "pointer";
       tdAsis.title = "Click para cambiar asistencia";
+      tdAsis.style.cursor = "pointer";
       tdAsis.onclick = () => {
         alumno.registros[estado.fechaActiva] = !(alumno.registros[estado.fechaActiva] === true);
         guardarDatos();
@@ -220,7 +176,7 @@ function renderTablaAlumnos() {
     }
     tr.appendChild(tdAsis);
 
-    // Importe abonado (botón toggle)
+    // Pago
     const tdPagado = document.createElement("td");
     if (!pasada) {
       tdPagado.textContent = "";
@@ -237,29 +193,48 @@ function renderTablaAlumnos() {
     }
     tr.appendChild(tdPagado);
 
-    // Acciones (solo modificar)
+    // Acciones
     const tdAcciones = document.createElement("td");
-    const btnMod = document.createElement("button");
-    btnMod.textContent = "Modificar";
-    btnMod.classList.add("btn-modificar");
-    btnMod.onclick = () => {
-      const nuevoNombre = prompt("Nuevo nombre:", alumno.name);
-      if (nuevoNombre && nuevoNombre.trim()) {
-        alumno.name = nuevoNombre.trim();
-        guardarDatos();
-        renderTablaAlumnos();
-      }
-    };
-    tdAcciones.appendChild(btnMod);
-    tr.appendChild(tdAcciones);
 
+    // Modificar (admin y profesor)
+    if (estado.role === "profesor" || estado.role === "admin") {
+      const btnMod = document.createElement("button");
+      btnMod.textContent = "Modificar";
+      btnMod.classList.add("btn-modificar");
+      btnMod.onclick = () => {
+        const nuevoNombre = prompt("Nuevo nombre:", alumno.name);
+        if (nuevoNombre && nuevoNombre.trim()) {
+          alumno.name = nuevoNombre.trim();
+          guardarDatos();
+          renderTablaAlumnos();
+        }
+      };
+      tdAcciones.appendChild(btnMod);
+    }
+    
+    // Eliminar (solo admin)
+    if (estado.role === "admin") {
+      const btnDel = document.createElement("button");
+      btnDel.textContent = "Eliminar";
+      btnDel.classList.add("btn-eliminar");
+      btnDel.onclick = () => {
+        if (confirm(`¿Eliminar a ${alumno.name}?`)) {
+          alumnos.splice(idx, 1);
+          guardarDatos();
+          renderTablaAlumnos();
+        }
+      };
+      tdAcciones.appendChild(btnDel);
+    }
+
+    tr.appendChild(tdAcciones);
     tbody.appendChild(tr);
   });
 }
 
-// Actualizar estilo y texto del botón pagado
+// Botón pagado
 function actualizarBtnPagado(btn, estadoPago) {
-  if (estadoPago === true) {
+  if (estadoPago) {
     btn.textContent = "💰 Sí";
     btn.style.background = "#4CAF50";
     btn.style.color = "white";
@@ -274,7 +249,6 @@ function mostrarLogin() {
   toggle(document.getElementById("login-container"), true);
   toggle(document.getElementById("app"), false);
 }
-
 function mostrarApp() {
   toggle(document.getElementById("login-container"), false);
   toggle(document.getElementById("app"), true);
@@ -282,7 +256,7 @@ function mostrarApp() {
   renderTablaAlumnos();
 }
 
-// Init app y eventos
+// Init
 window.addEventListener("load", () => {
   cargarDatos();
 
@@ -294,11 +268,7 @@ window.addEventListener("load", () => {
     selMes.appendChild(option);
   });
   selMes.value = estado.mesActivo;
-  selMes.onchange = e => {
-    estado.mesActivo = e.target.value;
-    renderSelectFechas();
-    renderTablaAlumnos();
-  };
+  selMes.onchange = e => { estado.mesActivo = e.target.value; renderSelectFechas(); renderTablaAlumnos(); };
 
   document.querySelectorAll(".turno-btn").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -309,19 +279,14 @@ window.addEventListener("load", () => {
     });
   });
 
-  const addForm = document.getElementById("add-alumno-form");
-  addForm.addEventListener("submit", e => {
+  document.getElementById("add-alumno-form").addEventListener("submit", e => {
     e.preventDefault();
     const name = document.getElementById("nuevo-alumno-name").value.trim();
     const pagadoValue = document.getElementById("nuevo-alumno-pagado").value === "true";
     if (name) {
-      estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo].push({
-        name,
-        pagado: pagadoValue,
-        registros: {}
-      });
+      estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo].push({ name, pagado: pagadoValue, registros: {} });
       guardarDatos();
-      addForm.reset();
+      e.target.reset();
       renderTablaAlumnos();
     }
   });
@@ -330,8 +295,11 @@ window.addEventListener("load", () => {
     e.preventDefault();
     const u = document.getElementById("username").value.trim();
     const p = document.getElementById("password").value.trim();
-    if (u === USERNAME && p === PASSWORD) {
+    const rol = Object.keys(CREDENCIALES).find(r => CREDENCIALES[r].user === u && CREDENCIALES[r].pass === p);
+    if (rol) {
       estado.loggedIn = true;
+      estado.role = rol;
+      document.getElementById("user-role").textContent = rol.toUpperCase();
       mostrarApp();
     } else {
       document.getElementById("login-error").textContent = "Usuario o contraseña incorrectos";
@@ -340,6 +308,7 @@ window.addEventListener("load", () => {
 
   document.getElementById("logout-btn").addEventListener("click", () => {
     estado.loggedIn = false;
+    estado.role = null;
     mostrarLogin();
   });
 
