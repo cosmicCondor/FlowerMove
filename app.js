@@ -1,7 +1,7 @@
 // Datos usuarios login - con roles
 const CREDENCIALES = {
-  admin: { user: "admin", pass: "flower123" },
-  profesor: { user: "profesor", pass: "flower123" }
+  admin: { user: "Elizabeth", pass: "flowerElyRoses" },
+  profesor: { user: "Profe", pass: "flowerProfe123" }
 };
 
 // Meses permitidos (agosto 2025 a junio 2026)
@@ -19,12 +19,6 @@ const BASE_ALUMNOS = {
     { name: "Valeria", pagado: false }, { name: "Liam", pagado: false }, { name: "Martina", pagado: false },
     { name: "Diego", pagado: false }
   ],
-  junior: [
-    { name: "Noah", pagado: false }, { name: "Mía", pagado: false }, { name: "Ethan", pagado: false },
-    { name: "Isabella", pagado: false }, { name: "Oliver", pagado: false }, { name: "Camila", pagado: false },
-    { name: "Elías", pagado: false }, { name: "Aria", pagado: false }, { name: "Sebastián", pagado: false },
-    { name: "Zoe", pagado: false }
-  ],
   inicio: [
     { name: "David", pagado: false }, { name: "Clara", pagado: false }, { name: "Adrián", pagado: false },
     { name: "Sara", pagado: false }, { name: "Mario", pagado: false }, { name: "Nora", pagado: false },
@@ -36,12 +30,6 @@ const BASE_ALUMNOS = {
     { name: "Marta", pagado: false }, { name: "Rubén", pagado: false }, { name: "Alicia", pagado: false },
     { name: "Javier", pagado: false }, { name: "Carmen", pagado: false }, { name: "Sergio", pagado: false },
     { name: "Irene", pagado: false }
-  ],
-  adulto: [
-    { name: "Laura", pagado: false }, { name: "Miguel", pagado: false }, { name: "Ana", pagado: false },
-    { name: "Fernando", pagado: false }, { name: "Cristina", pagado: false }, { name: "Luis", pagado: false },
-    { name: "Patricia", pagado: false }, { name: "David", pagado: false }, { name: "Sandra", pagado: false },
-    { name: "Jorge", pagado: false }
   ]
 };
 
