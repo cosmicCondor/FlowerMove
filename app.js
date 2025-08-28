@@ -1,6 +1,6 @@
 // Datos usuarios login - con roles
 const CREDENCIALES = {
-  admin: { user: "Elizabeth", pass: "flowerElyRoses" },
+  admin: { user: "Elisabeth", pass: "flowerElyRoses" },
   profesor: { user: "Profe", pass: "flowerProfe123" }
 };
 
