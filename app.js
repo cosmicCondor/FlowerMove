@@ -1,15 +1,16 @@
-// import { initializeApp } from "firebase/app";
 // Credenciales
 const CREDENCIALES = {
   admin: { user: "Elisabeth", pass: "flowerElyRoses" },
   profesor: { user: "Profe", pass: "flowerProfe123" }
 };
-// Meses permitidos
+
+// Meses permitidos (agosto 2025 a junio 2026)
 const MESES = [
   "Agosto 2025",
   "Septiembre 2025", "Octubre 2025", "Noviembre 2025", "Diciembre 2025",
   "Enero 2026", "Febrero 2026", "Marzo 2026", "Abril 2026", "Mayo 2026", "Junio 2026"
 ];
+
 // Base alumnos con eliminación lógica
 const BASE_ALUMNOS = {
   infantil: [
@@ -50,27 +51,31 @@ const BASE_ALUMNOS = {
   ]
 };
 
+// Estado global
 let estado = {
   loggedIn: false,
-  role: null, // 'admin' o 'profesor'
+  role: null,
   turnoActivo: "infantil",
   mesActivo: MESES[0],
   fechaActiva: null,
   alumnosPorMes: {}
 };
 
-// Firebase config (sustituye tus datos)
+// Configuración Firebase (reemplaza con tu propia configuración)
 const firebaseConfig = {
   apiKey: "AIzaSyA2HvQzDnNVJFMWzUCqwyU4OqxskmEzVyU",
   authDomain: "flowermove-5e5d9.firebaseapp.com",
   projectId: "flowermove-5e5d9",
-  storageBucket: "flowermove-5e5d9.firebasestorage.app",
+  storageBucket: "flowermove-5e5d9.appspot.com",
   messagingSenderId: "266710754447",
   appId: "1:266710754447:web:7fb9a6807c1f8fe1457cfa"
 };
+
+// Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Guardar datos en Firestore
 async function guardarDatos() {
   try {
     await db.collection("flowermove").doc("datos").set(estado.alumnosPorMes);
@@ -79,6 +84,7 @@ async function guardarDatos() {
   }
 }
 
+// Cargar datos desde Firestore
 async function cargarDatos() {
   try {
     const doc = await db.collection("flowermove").doc("datos").get();
@@ -88,7 +94,6 @@ async function cargarDatos() {
       MESES.forEach(mes => {
         estado.alumnosPorMes[mes] = {};
         Object.keys(BASE_ALUMNOS).forEach(turno => {
-          // Copia profunda
           estado.alumnosPorMes[mes][turno] = JSON.parse(JSON.stringify(BASE_ALUMNOS[turno]));
         });
       });
@@ -99,7 +104,7 @@ async function cargarDatos() {
   }
 }
 
-// Obtener fechas lunes y miércoles
+// Función para obtener fechas lunes y miércoles
 function obtenerFechasLunMie(mesAnio) {
   const [nombreMes, anioStr] = mesAnio.split(" ");
   const mesesMap = {
@@ -110,8 +115,8 @@ function obtenerFechasLunMie(mesAnio) {
   const anio = parseInt(anioStr, 10);
   const fechas = [];
   const d = new Date(anio, mesNum, 1);
-  while (d.getMonth() === mesNum) {
-    if (d.getDay() === 1 || d.getDay() === 3) fechas.push(new Date(d));
+  while(d.getMonth() === mesNum) {
+    if(d.getDay() === 1 || d.getDay() === 3) fechas.push(new Date(d));
     d.setDate(d.getDate() + 1);
   }
   return fechas;
@@ -122,43 +127,47 @@ function toggle(el, show) {
   el.classList.toggle("hidden", !show);
 }
 
-// Select de fechas
+// Renderizar select de fechas
 function renderSelectFechas() {
   const fechas = obtenerFechasLunMie(estado.mesActivo);
   const sel = document.getElementById("date-select");
   sel.innerHTML = "";
   fechas.forEach(f => {
     const iso = f.toISOString().slice(0,10);
-    const text = f.toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const text = f.toLocaleDateString("es-ES", {day: "2-digit", month: "2-digit", year: "numeric"});
     const option = document.createElement("option");
     option.value = iso;
     option.textContent = text;
     sel.appendChild(option);
   });
   const hoyISO = new Date().toISOString().slice(0,10);
-  let seleccion = fechas.length > 0 ? fechas[0].toISOString().slice(0,10) : null;
-  fechas.forEach(f => { if (f.toISOString().slice(0,10) <= hoyISO) seleccion = f.toISOString().slice(0,10); });
+  let seleccion = fechas.length>0 ? fechas[0].toISOString().slice(0,10) : null;
+  fechas.forEach(f => {
+    if (f.toISOString().slice(0,10) <= hoyISO) seleccion = f.toISOString().slice(0,10);
+  });
   estado.fechaActiva = seleccion;
-  if (seleccion) sel.value = seleccion;
-  sel.onchange = e => { estado.fechaActiva = e.target.value || null; renderTablaAlumnos(); };
+  if(seleccion) sel.value = seleccion;
+  sel.onchange = e => {
+    estado.fechaActiva = e.target.value || null;
+    renderTablaAlumnos();
+  };
 }
 
-// Renderizar tabla alumnos con eliminación lógica
+// Render tabla alumnos con eliminación lógica
 function renderTablaAlumnos() {
   const tbody = document.querySelector("#alumnos-table tbody");
   tbody.innerHTML = "";
-  if (!estado.fechaActiva) return;
+  if(!estado.fechaActiva) return;
   let alumnos = estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo];
-  if (!alumnos) return;
+  if(!alumnos) return;
   const hoyISO = new Date().toISOString().slice(0,10);
   const pasada = estado.fechaActiva <= hoyISO;
   const mesActualIdx = MESES.indexOf(estado.mesActivo);
 
   alumnos
     .filter(alumno => {
-      // Mostrar si está activo, o si fue eliminado en un mes posterior al actual
-      if (alumno.activo) return true;
-      if (alumno.fechaEliminacion) {
+      if(alumno.activo) return true;
+      if(alumno.fechaEliminacion) {
         const idxElim = MESES.indexOf(alumno.fechaEliminacion);
         return mesActualIdx < idxElim;
       }
@@ -166,18 +175,21 @@ function renderTablaAlumnos() {
     })
     .forEach((alumno, idx) => {
       const tr = document.createElement("tr");
+
       // Fecha
       const tdFecha = document.createElement("td");
       tdFecha.textContent = document.getElementById("date-select").selectedOptions[0]?.textContent || "";
       tr.appendChild(tdFecha);
+
       // Nombre
       const tdName = document.createElement("td");
       tdName.textContent = `${idx + 1}. ${alumno.name}`;
       tr.appendChild(tdName);
+
       // Asistencia
       const tdAsis = document.createElement("td");
       tdAsis.classList.add("asistencia-cell");
-      if (!pasada) {
+      if(!pasada) {
         tdAsis.textContent = "";
         tdAsis.title = "Fecha futura, no disponible";
       } else {
@@ -192,9 +204,10 @@ function renderTablaAlumnos() {
         };
       }
       tr.appendChild(tdAsis);
+
       // Pago
       const tdPagado = document.createElement("td");
-      if (!pasada) {
+      if(!pasada) {
         tdPagado.textContent = "";
       } else {
         const btnPago = document.createElement("button");
@@ -208,16 +221,18 @@ function renderTablaAlumnos() {
         tdPagado.appendChild(btnPago);
       }
       tr.appendChild(tdPagado);
+
       // Acciones
       const tdAcciones = document.createElement("td");
-      // Modificar nombre
-      if (estado.role === "profesor" || estado.role === "admin") {
+
+      // Modificar nombre (profesor y admin)
+      if(estado.role === "profesor" || estado.role === "admin") {
         const btnMod = document.createElement("button");
         btnMod.textContent = "Modificar";
         btnMod.classList.add("btn-modificar");
         btnMod.onclick = () => {
           const nuevoNombre = prompt("Nuevo nombre:", alumno.name);
-          if (nuevoNombre && nuevoNombre.trim()) {
+          if(nuevoNombre && nuevoNombre.trim()) {
             alumno.name = nuevoNombre.trim();
             guardarDatos();
             renderTablaAlumnos();
@@ -225,13 +240,14 @@ function renderTablaAlumnos() {
         };
         tdAcciones.appendChild(btnMod);
       }
-      // Eliminar lógico alumno (solo admin)
-      if (estado.role === "admin" && alumno.activo) {
+
+      // Eliminar lógico (solo admin)
+      if(estado.role === "admin" && alumno.activo) {
         const btnDel = document.createElement("button");
         btnDel.textContent = "Eliminar";
         btnDel.classList.add("btn-eliminar");
         btnDel.onclick = () => {
-          if (confirm(`¿Eliminar a ${alumno.name}?`)) {
+          if(confirm(`¿Eliminar a ${alumno.name}?`)) {
             alumno.activo = false;
             alumno.fechaEliminacion = estado.mesActivo;
             guardarDatos();
@@ -240,6 +256,7 @@ function renderTablaAlumnos() {
         };
         tdAcciones.appendChild(btnDel);
       }
+
       tr.appendChild(tdAcciones);
       tbody.appendChild(tr);
     });
@@ -247,7 +264,7 @@ function renderTablaAlumnos() {
 
 // Botón pagado
 function actualizarBtnPagado(btn, estadoPago) {
-  if (estadoPago) {
+  if(estadoPago) {
     btn.textContent = "💰 Sí";
     btn.style.background = "#4CAF50";
     btn.style.color = "white";
@@ -258,6 +275,7 @@ function actualizarBtnPagado(btn, estadoPago) {
   }
 }
 
+// Mostrar login y app
 function mostrarLogin() {
   toggle(document.getElementById("login-container"), true);
   toggle(document.getElementById("app"), false);
@@ -269,8 +287,10 @@ function mostrarApp() {
   renderTablaAlumnos();
 }
 
+// Init al cargar ventana
 window.addEventListener("load", async () => {
   await cargarDatos();
+
   const selMes = document.getElementById("month-select");
   MESES.forEach(m => {
     const option = document.createElement("option");
@@ -279,7 +299,12 @@ window.addEventListener("load", async () => {
     selMes.appendChild(option);
   });
   selMes.value = estado.mesActivo;
-  selMes.onchange = e => { estado.mesActivo = e.target.value; renderSelectFechas(); renderTablaAlumnos(); };
+  selMes.onchange = e => {
+    estado.mesActivo = e.target.value;
+    renderSelectFechas();
+    renderTablaAlumnos();
+  };
+
   document.querySelectorAll(".turno-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelector(".turno-btn.active").classList.remove("active");
@@ -288,11 +313,12 @@ window.addEventListener("load", async () => {
       renderTablaAlumnos();
     });
   });
+
   document.getElementById("add-alumno-form").addEventListener("submit", e => {
     e.preventDefault();
     const name = document.getElementById("nuevo-alumno-name").value.trim();
     const pagadoValue = document.getElementById("nuevo-alumno-pagado").value === "true";
-    if (name) {
+    if(name) {
       estado.alumnosPorMes[estado.mesActivo][estado.turnoActivo].push({
         name,
         pagado: pagadoValue,
@@ -305,12 +331,13 @@ window.addEventListener("load", async () => {
       renderTablaAlumnos();
     }
   });
+
   document.getElementById("login-form").addEventListener("submit", e => {
     e.preventDefault();
     const u = document.getElementById("username").value.trim();
     const p = document.getElementById("password").value.trim();
     const rol = Object.keys(CREDENCIALES).find(r => CREDENCIALES[r].user === u && CREDENCIALES[r].pass === p);
-    if (rol) {
+    if(rol) {
       estado.loggedIn = true;
       estado.role = rol;
       document.getElementById("user-role").textContent = rol.toUpperCase();
@@ -319,10 +346,12 @@ window.addEventListener("load", async () => {
       document.getElementById("login-error").textContent = "Usuario o contraseña incorrectos";
     }
   });
+
   document.getElementById("logout-btn").addEventListener("click", () => {
     estado.loggedIn = false;
     estado.role = null;
     mostrarLogin();
   });
+
   mostrarLogin();
 });
