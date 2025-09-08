@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 // Credenciales
 const CREDENCIALES = {
   admin: { user: "Elisabeth", pass: "flowerElyRoses" },
