@@ -142,7 +142,7 @@ function renderTablaAlumnos() {
 
     // Nombre
     const tdName = document.createElement("td");
-    tdName.textContent = alumno.name;
+    tdName.textContent = `${idx + 1}. ${alumno.name}`;
     tr.appendChild(tdName);
 
     // Asistencia
