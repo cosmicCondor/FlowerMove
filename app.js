@@ -18,36 +18,21 @@ const BASE_ALUMNOS = {
     { name: "Mateo", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Sofía", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Lucas", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Emma", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Hugo", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Valeria", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Liam", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Martina", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Diego", pagado: false, registros: {}, activo: true, fechaEliminacion: null }
+    { name: "Emma", pagado: false, registros: {}, activo: true, fechaEliminacion: null }
   ],
   inicio: [
     { name: "David", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Clara", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Adrián", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Sara", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Mario", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Nora", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Pablo", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Lara", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Álvaro", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Julia", pagado: false, registros: {}, activo: true, fechaEliminacion: null }
+    { name: "Mario", pagado: false, registros: {}, activo: true, fechaEliminacion: null }
   ],
   youth: [
     { name: "Carlos", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Elena", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Bruno", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
     { name: "Marta", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Rubén", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Alicia", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Javier", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Carmen", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Sergio", pagado: false, registros: {}, activo: true, fechaEliminacion: null },
-    { name: "Irene", pagado: false, registros: {}, activo: true, fechaEliminacion: null }
+    { name: "Rubén", pagado: false, registros: {}, activo: true, fechaEliminacion: null }
   ]
 };
 
