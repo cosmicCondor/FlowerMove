@@ -63,7 +63,10 @@ const db = firebase.firestore();
 // Guardar datos en Firestore
 async function guardarDatos() {
   try {
-    await db.collection("flowermove").doc("datos").set(estado.alumnosPorMes);
+    // Asegurar que los valores false se mantengan al guardar en Firestore
+    const datosParaGuardar = JSON.parse(JSON.stringify(estado.alumnosPorMes));
+    await db.collection("flowermove").doc("datos").set(datosParaGuardar);
+    console.log("Datos guardados correctamente en Firestore");
   } catch (error) {
     console.error("Error guardando datos en Firestore:", error);
   }
